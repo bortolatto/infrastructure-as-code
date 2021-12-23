@@ -1,0 +1,1 @@
+I have made this repo to learn how to deal with Ansible. In my journey to be a better developer, it is crucial to learn how to automatize things. Ansible provides a great way to handle such automation, giving the so-called desired state.
