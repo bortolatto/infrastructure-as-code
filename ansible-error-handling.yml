@@ -1,0 +1,23 @@
+---
+# report.yml
+
+- hosts: localhost
+  tasks:
+    - name: download transaction_list
+      block:
+        - name: download file
+          get_url: 
+            url: http://apps.l33t.com/transaction_list
+            dest: /home/ansible/transaction_list
+        - debug:
+            msg: File downloaded
+        - replace:
+            path: /home/ansible/transaction_list
+            regexp: "#BLANKLINE"
+            replace: "\n"
+      rescue:
+        - debug: 
+            msg: l33t.com appears to be down.  Try again later.
+      always:
+        - debug:
+            msg: Attempt completed
