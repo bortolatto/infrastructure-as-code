@@ -1,0 +1,27 @@
+# web.yml
+---
+
+- hosts: web
+  become: true
+  tasks:
+    - name: install httpd (apache web server)
+      yum: 
+        name: httpd
+        state: latest
+
+    - name: start & enable apache
+      service:
+        name: httpd
+        enabled: yes
+        state: started
+
+    - name: retreive website from repo
+      get_url:
+        dest: /tmp/website.tgz
+        url: http://repo.example.com/website.tgz 
+
+    - name: install website
+      unarchive: 
+        dest: /var/www/html
+        src: /tmp/website.tgz
+        remote_src: yes
