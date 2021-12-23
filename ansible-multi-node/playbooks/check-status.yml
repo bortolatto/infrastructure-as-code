@@ -1,0 +1,10 @@
+# check-status.yml
+---
+  - hosts: webservers:loadbalancers
+    become: true
+    tasks:
+      - name: verify httpd status
+        command: service httpd status
+        args:
+          warn: no
+        changed_when: false
