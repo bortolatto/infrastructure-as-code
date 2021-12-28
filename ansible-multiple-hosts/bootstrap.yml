@@ -1,0 +1,50 @@
+---
+# bootstrap.yml
+
+- hosts: all
+  become: true
+  tasks:
+    - name: Incluir host em /etc/hosts
+      lineinfile:
+        line: "ansible.xyzcorp.com 169.168.0.1"
+        path: /etc/hosts
+
+    - name: Instalar pacote elinks
+      yum:
+        name: elinks
+        state: present   
+
+    - name: Criar usuário xyzcorp_audit
+      user:
+        name: xyzcorp_audit
+        state: present
+
+    - name: Copiar arquivos para o host remoto (1)
+      copy:
+        dest: /etc/motd
+        src: /home/ansible/motd
+       
+    - name: Copiar arquivos para o host remoto (2)
+      copy:
+        dest: /etc/issue
+        src: /home/ansible/issue
+
+- hosts: network
+  become: true
+  tasks:
+    - name: instalar nmap
+      yum:
+        name: nmap-ncat
+        state: present   
+    - name: Criar usuário xyzcorp_network
+      user:
+        name: xyzcorp_network
+        state: present
+
+- hosts: sysadmin
+  become: true
+  tasks:
+    - name: Copiar arquivos para o host remoto (1)
+      copy:
+        dest: /mnt/storage/
+        src: /home/ansible/scripts.tgz
