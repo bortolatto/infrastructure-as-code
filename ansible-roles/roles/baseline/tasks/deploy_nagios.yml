@@ -1,0 +1,1 @@
+- yum: name=nagios state=latest
